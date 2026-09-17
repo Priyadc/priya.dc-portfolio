@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priya DC — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F3EA;
+    --text-on-paper: #12302F;
+    --ink: #0D3B3E;
+    --text-on-ink: #F4EFE3;
+    --violet: #FF6B4A;
+    --violet-soft: #FFE3D9;
+    --coral: #1F5C5E;
+    --amber: #FF8562;
+    --mint: #FFB59C;
+    --line: rgba(18,48,47,0.14);
+    --line-on-ink: rgba(244,239,227,0.18);
+    --font-display: 'Newsreader', 'Georgia', serif;
+    --font-body: 'Inter', 'Segoe UI', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0F2B2C;
+      --text-on-paper: #EDE7D8;
+      --violet-soft: #1D4A48;
+      --line: rgba(237,231,216,0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F2B2C;
+    --text-on-paper: #EDE7D8;
+    --violet-soft: #1D4A48;
+    --line: rgba(237,231,216,0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text-on-paper);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  section { padding: 96px 0; }
+  @media (max-width: 720px) { section { padding: 64px 0; } }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .nav-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .nav-links a:hover { border-color: var(--coral); }
+  .nav-toggle { display: none; }
+  @media (max-width: 680px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: var(--ink);
+    color: var(--text-on-ink);
+    padding: 88px 0 96px;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  }
+  .hero-kicker {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--amber);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.08;
+    font-weight: 700;
+  }
+  .hero p.lede {
+    margin-top: 22px;
+    font-size: 1.1rem;
+    color: rgba(245,243,255,0.78);
+    max-width: 46ch;
+  }
+  .hero-ctas {
+    margin-top: 36px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .btn-solid { background: var(--violet); color: #0D3B3E; }
+  .btn-solid:hover { background: #FF8562; }
+  .btn-outline { border-color: var(--line-on-ink); color: var(--text-on-ink); background: transparent; }
+  .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+
+  .stat-card {
+    background: #164648;
+    border: 1px solid var(--line-on-ink);
+    border-radius: 18px;
+    padding: 32px;
+  }
+  .stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-family: var(--font-display);
+  }
+  .stat-before { font-size: 2.1rem; color: rgba(245,243,255,0.45); text-decoration: line-through; text-decoration-color: var(--coral); }
+  .stat-arrow { font-size: 1.4rem; color: var(--amber); }
+  .stat-after { font-size: 2.8rem; color: var(--mint); font-weight: 700; }
+  .stat-caption {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: rgba(245,243,255,0.7);
+    max-width: 32ch;
+  }
+  .stat-label {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-on-ink);
+    font-size: 0.85rem;
+    color: rgba(245,243,255,0.55);
+  }
+
+  /* ---------- ABOUT / SKILLS ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+  }
+  @media (max-width: 780px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .section-heading {
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .about-grid p { font-size: 1.02rem; color: var(--text-on-paper); opacity: 0.85; max-width: 52ch; }
+
+  .skill-group { margin-bottom: 22px; }
+  .skill-group:last-child { margin-bottom: 0; }
+  .skill-group-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: var(--violet);
+  }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 6px 14px;
+    background: var(--violet-soft);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .experience { background: var(--violet); color: #FFFFFF; }
+  .experience .section-heading { color: #FFFFFF; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid rgba(255,255,255,0.22);
+  }
+  .exp-item:last-child { padding-bottom: 0; }
+  @media (max-width: 720px) {
+    .exp-item { grid-template-columns: 1fr; gap: 8px; }
+  }
+  .exp-dates { font-size: 0.9rem; color: rgba(255,255,255,0.72); font-weight: 500; }
+  .exp-role { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
+  .exp-company { font-size: 0.95rem; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
+  .exp-bullets { margin: 0; padding-left: 20px; }
+  .exp-bullets li { margin-bottom: 6px; font-size: 0.97rem; color: rgba(255,255,255,0.92); }
+
+  /* ---------- PROJECTS ---------- */
+  .project-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+  }
+  .project-row:last-child { border-bottom: 1px solid var(--line); }
+  @media (max-width: 780px) {
+    .project-row { grid-template-columns: 1fr; gap: 14px; }
+  }
+  .project-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .project-dates { font-size: 0.85rem; opacity: 0.55; margin-top: 6px; }
+  .project-desc { font-size: 1rem; opacity: 0.85; margin-top: 0; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 6px;
+  }
+  .tag-a { background: #FFE0D2; color: #B03B1C; }
+  .tag-b { background: #D7E8E6; color: #155452; }
+  .tag-c { background: var(--violet-soft); color: var(--violet); }
+
+  /* ---------- CONTACT ---------- */
+  .contact { background: var(--ink); color: var(--text-on-ink); text-align: center; }
+  .contact .section-heading { color: var(--text-on-ink); }
+  .contact p.lede { color: rgba(245,243,255,0.72); max-width: 44ch; margin: 14px auto 0; }
+  .contact-links {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .contact-card {
+    background: #164648;
+    border: 1px solid var(--line-on-ink);
+    border-radius: 14px;
+    padding: 18px 26px;
+    text-decoration: none;
+    font-weight: 600;
+    min-width: 180px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+  .contact-card:hover { border-color: var(--amber); transform: translateY(-2px); }
+  .contact-card .label { display: block; font-size: 0.75rem; font-weight: 500; color: rgba(245,243,255,0.55); margin-bottom: 6px; }
+  .copy-note { margin-top: 18px; font-size: 0.85rem; color: var(--mint); min-height: 1.2em; }
+
+  footer {
+    padding: 32px 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-on-paper);
+    opacity: 0.5;
+  }
+
+  :focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-row">
+    <div class="nav-name">Priya DC</div>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="hero-kicker">Full Stack Developer — React.js · Next.js · Node.js</div>
+      <h1>Interfaces that stay fast under load.</h1>
+      <p class="lede">2.5+ years building enterprise-grade web applications — from micro frontend architecture to rendering logic that has to hold up in production, at scale, every day.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn btn-solid">See the work</a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-row">
+        <span class="stat-before">70%</span>
+        <span class="stat-arrow">&#8594;</span>
+        <span class="stat-after">4%</span>
+      </div>
+      <p class="stat-caption">CPU consumption on a core table component, after re-architecting its rendering logic.</p>
+      <div class="stat-label">Now running in production across multiple client deployments</div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <h2 class="section-heading">About</h2>
+      <p>I'm a full stack developer based in Bangalore, currently at FireFlink, where I build and ship features across a multi-module enterprise platform. I care most about the parts of the job that are easy to skip — rendering performance, API latency, components that other engineers can actually reuse — and I've got the Kubernetes and Docker chops to see things through to deployment.</p>
+    </div>
+    <div>
+      <div class="skill-group">
+        <div class="skill-group-title">Frontend</div>
+        <div class="chip-row">
+          <span class="chip">React.js</span><span class="chip">Next.js</span><span class="chip">JavaScript (ES6+)</span><span class="chip">TypeScript</span><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">SCSS/SASS</span><span class="chip">Material UI</span><span class="chip">Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Backend & state</div>
+        <div class="chip-row">
+          <span class="chip">Node.js</span><span class="chip">RESTful APIs</span><span class="chip">Redux Toolkit</span><span class="chip">RTK Query</span><span class="chip">React Hooks</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Performance & architecture</div>
+        <div class="chip-row">
+          <span class="chip">Micro Frontend Architecture</span><span class="chip">Webpack Module Federation</span><span class="chip">Lazy Loading</span><span class="chip">Code Splitting</span><span class="chip">Virtualization</span><span class="chip">Caching</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">DevOps & tooling</div>
+        <div class="chip-row">
+          <span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Git</span><span class="chip">GitLab</span><span class="chip">Bitbucket</span><span class="chip">Jira</span><span class="chip">Agile/Scrum</span><span class="chip">Error Handling</span><span class="chip">Cross-Browser Compatibility</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="experience">
+  <div class="wrap">
+    <h2 class="section-heading">Experience</h2>
+
+    <div class="exp-item">
+      <div class="exp-dates">Apr 2026 — Present</div>
+      <div>
+        <div class="exp-role">Software Engineer</div>
+        <div class="exp-company">FireFlink Private Limited, Bangalore &middot; promoted from Associate Software Engineer</div>
+        <ul class="exp-bullets">
+          <li>Reduced CPU consumption from ~70% to single digits by re-architecting the table component's rendering logic — now running in production across multiple client deployments.</li>
+          <li>Built a reusable text-truncation component with hover tooltip support, adopted platform-wide for consistent overflow handling.</li>
+          <li>Ship scalable features across a multi-module enterprise platform using React.js, Next.js, TypeScript, Redux Toolkit and RTK Query.</li>
+          <li>Extend backend support using Node.js and Python alongside the core team, and containerize environments with Docker.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dates">Oct 2024 — Mar 2026</div>
+      <div>
+        <div class="exp-role">Associate Software Engineer</div>
+        <div class="exp-company">FireFlink Private Limited, Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Built reusable React.js and TypeScript components powering enterprise automation modules used daily by QA and engineering teams.</li>
+          <li>Implemented asynchronous, RESTful-API-driven workflows with Redux Toolkit and RTK Query, improving data-fetch reliability.</li>
+          <li>Contributed to the Micro Frontend architecture rollout and code reviews that improved release stability.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dates">May 2024 — Oct 2024</div>
+      <div>
+        <div class="exp-role">Associate Software Engineer</div>
+        <div class="exp-company">Tek Pyramid, Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Developed responsive React.js applications and reusable UI components for a live assessment and certification platform.</li>
+          <li>Integrated RESTful APIs and built frontend workflows directly from product requirements with PMs and designers.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dates">Apr 2022 — May 2022</div>
+      <div>
+        <div class="exp-role">Intern</div>
+        <div class="exp-company">Minfratech (OPC) Private Limited, Bangalore</div>
+        <ul class="exp-bullets">
+          <li>Built responsive UI components for a Pharmacy Management System and supported UI debugging and responsive development.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <h2 class="section-heading">Projects</h2>
+
+    <div class="project-row">
+      <div>
+        <a href="https://claude.ai/artifact/X3ewGRMWXtUZMs4rMTMDHH" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+          <div class="project-name">Inkwell <span style="font-size:0.9rem; font-weight:500; opacity:0.5;">&#8599;</span></div>
+        </a>
+        <div class="project-dates">2026</div>
+      </div>
+      <div>
+        <p class="project-desc">A distraction-free notes app with autosave, a document sidebar and a quiet, serif-led writing surface. Documents persist in the browser and update live as you type, with no page reloads or lost work.</p>
+        <div class="project-tags">
+          <span class="tag tag-c">JavaScript</span><span class="tag tag-b">HTML5</span><span class="tag tag-b">CSS3</span><span class="tag tag-a">LocalStorage</span>
+        </div>
+        <a href="https://claude.ai/artifact/X3ewGRMWXtUZMs4rMTMDHH" target="_blank" rel="noopener" style="display:inline-block; margin-top:14px; font-size:0.85rem; font-weight:600; color:var(--violet); text-decoration:none;">View live demo &#8594;</a>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div>
+        <div class="project-name">Role-Based Checklist Management System</div>
+        <div class="project-dates">Aug 2026 — Present</div>
+      </div>
+      <div>
+        <p class="project-desc">An enterprise checklist and task-management platform for creating, assigning, scheduling and tracking recurring and one-time operational tasks, spanning Role, User, Org Hierarchy, Checklist, Assignment, Task Execution and Dashboard modules across Admin, Manager and Employee workflows. Built dynamic checklist responses and management dashboards supporting validation, remarks, evidence attachments, status tracking, compliance reporting, filtering and audit history.</p>
+        <div class="project-tags">
+          <span class="tag tag-c">React.js</span><span class="tag tag-c">Next.js</span><span class="tag tag-c">TypeScript</span><span class="tag tag-a">Node.js</span><span class="tag tag-b">Redux Toolkit</span><span class="tag tag-b">RTK Query</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div>
+        <div class="project-name">FireFlink Automation Tool</div>
+        <div class="project-dates">Oct 2024 — Aug 2026</div>
+      </div>
+      <div>
+        <p class="project-desc">An AI-powered, scriptless test automation tool. Shipped modular, independently-deployable frontend features for Web, Mobile, API and Desktop testing using Webpack Module Federation, and cut initial load and re-render overhead by introducing lazy loading and code splitting into the module strategy. Debugged issues and improved cross-browser compatibility and overall UX along the way.</p>
+        <div class="project-tags">
+          <span class="tag tag-c">React.js</span><span class="tag tag-c">TypeScript</span><span class="tag tag-a">Python</span><span class="tag tag-b">Redux Toolkit</span><span class="tag tag-a">Micro Frontend</span><span class="tag tag-a">Module Federation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div>
+        <div class="project-name">Assessment &amp; Certification Platform</div>
+        <div class="project-dates">May 2024 — Oct 2024</div>
+      </div>
+      <div>
+        <p class="project-desc">A live platform supporting Beginner, Intermediate and Advanced certification tracks. Built the responsive React components and interfaces, and implemented assessment-slot scheduling and certification workflow logic end-to-end with the product team.</p>
+        <div class="project-tags">
+          <span class="tag tag-c">React.js</span><span class="tag tag-c">JavaScript</span><span class="tag tag-b">Material UI</span><span class="tag tag-b">Bootstrap</span><span class="tag tag-a">RESTful APIs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div>
+        <div class="project-name">Pharmacy Management System</div>
+        <div class="project-dates">Apr 2022 — May 2022</div>
+      </div>
+      <div>
+        <p class="project-desc">Designed and built mobile-first, responsive UI components for a pharmacy management platform, improving usability across devices.</p>
+        <div class="project-tags">
+          <span class="tag tag-c">HTML5</span><span class="tag tag-c">CSS3</span><span class="tag tag-b">Responsive Design</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <h2 class="section-heading">Education</h2>
+    <div class="exp-item" style="grid-template-columns: 220px 1fr; border-top: 1px solid var(--line);">
+      <div class="exp-dates" style="color: var(--text-on-paper); opacity: 0.55;">2018 — 2022</div>
+      <div>
+        <div class="exp-role" style="color: var(--text-on-paper);">Bachelor of Engineering, Computer Science Engineering</div>
+        <div class="exp-company" style="color: var(--text-on-paper); opacity: 0.7;">Sri Venkateshwara College of Engineering</div>
+      </div>
+    </div>
+    <div class="exp-item" style="grid-template-columns: 220px 1fr; border-top: 1px solid var(--line);">
+      <div class="exp-dates" style="color: var(--text-on-paper); opacity: 0.55;">2016 — 2018</div>
+      <div>
+        <div class="exp-role" style="color: var(--text-on-paper);">Pre-University (PUC)</div>
+        <div class="exp-company" style="color: var(--text-on-paper); opacity: 0.7;">Narayan PU College</div>
+      </div>
+    </div>
+    <div class="exp-item" style="grid-template-columns: 220px 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="exp-dates" style="color: var(--text-on-paper); opacity: 0.55;">2015 — 2016</div>
+      <div>
+        <div class="exp-role" style="color: var(--text-on-paper);">SSLC</div>
+        <div class="exp-company" style="color: var(--text-on-paper); opacity: 0.7;">SDUIRS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <h2 class="section-heading">Get in touch</h2>
+    <p class="lede">Open to full stack, React.js and Next.js developer roles. Based in Bangalore, India — happy to talk remote or on-site.</p>
+    <div class="contact-links">
+      <a class="contact-card" href="mailto:priyadc24@gmail.com" id="email-card">
+        <span class="label">Email</span>priyadc24@gmail.com
+      </a>
+      <a class="contact-card" href="https://github.com/Priyadc" target="_blank" rel="noopener">
+        <span class="label">GitHub</span>github.com/Priyadc
+      </a>
+      <a class="contact-card" href="https://linkedin.com/in/priya-dc" target="_blank" rel="noopener">
+        <span class="label">LinkedIn</span>linkedin.com/in/priya-dc
+      </a>
+    </div>
+    <div class="copy-note" id="copy-note"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Priya DC &middot; Bangalore, India</div>
+</footer>
+
+<script>
+  (function() {
+    var emailCard = document.getElementById('email-card');
+    var note = document.getElementById('copy-note');
+    if (!emailCard || !note) return;
+    emailCard.addEventListener('click', function(e) {
+      if (navigator.clipboard) {
+        try {
+          navigator.clipboard.writeText('priyadc24@gmail.com');
+          note.textContent = 'Email copied to clipboard';
+          setTimeout(function() { note.textContent = ''; }, 2500);
+        } catch (err) { /* fall through to mailto */ }
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
